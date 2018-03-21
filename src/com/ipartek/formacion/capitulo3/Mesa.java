@@ -1,81 +1,78 @@
-// 1. Definicion package
+//1.definicion package
 package com.ipartek.formacion.capitulo3;
 
-//2. Los imports => ahora mismo no hay ninguno
+//2. Imports => ahora mismo no tenemos ninguno
 
-//3. Definicion de la clase
+//3. definicion Clase
+/**
+ * 
+ * @author ur00
+ *
+ */
 public class Mesa {
-	// Precio en Euros
-	final int PRECIO_PATA = 1;
-	final int PRECIO_M2 = 5;
-	final int PRECIO_MATERIAL_MADERA = 4;
-	final int PRECIO_MATERIAL_ACERO = 6;
-	final int PRECIO_MATERIAL_ALUMINIO = 5;
-	final int PRECIO_MATERIAL_PLASTICO = 2;
-	final int PRECIO_COLOR_CUSTOM = 23;
-	final String PRECIO_COLOR_NAME_CUSTOM = "custom";
 
-	final int MATERIAL_MADERA = 1;
-	final int MATERIAL_ACERO = 2;
-	final int MATERIAL_ALUMINIO = 3;
-	final int MATERIAL_PLASTICO = 4;
+	/**
+	 * precio en ï¿½
+	 */
+	public static final int PRECIO_PATA = 1;
+	public static final int PRECIO_M2 = 5;
+	public static final int PRECIO_MATERIAL_MADERA = 4;
+	public static final int PRECIO_MATERIAL_ACERO = 6;
+	public static final int PRECIO_MATERIAL_ALUMINIO = 5;
+	public static final int PRECIO_MATERIAL_PLASTICO = 2;
+	public static final int PRECIO_COLOR_CUSTOM = 23;
+	public static final String PRECIO_COLOR_NAME_CUSTOM = "custom";
 
-	// 4. Atributos SIEMPRE private para mantener la encapsulación
+	public static final int MATERIAL_MADERA = 1;
+	public static final int MATERIAL_ACERO = 2;
+	public static final int MATERIAL_ALUMINIO = 3;
+	public static final int MATERIAL_PLASTICO = 4;
+
+	// 4. Atributos siempre PRIVATE para mantener la encapsulacion
 	private int numeroPatas;
-	private int dimension; // m2
+	private int dimension; // metros cuadrados
 	private String color;
 	private int material;
 
-	/*
-	 * 5. Metodos 5.1 Contructors 5.2 getter and setters 5.3 Others
-	 */
-
 	public Mesa() {
 
+		// llamar siempre a super
 		super();
 
+		// inicializar los atributos
 		this.numeroPatas = 4;
 		this.dimension = 1;
 		this.color = "blanco";
-		this.material = 1;
+		this.material = MATERIAL_MADERA;
+
 	}
 
-	/**
-	 * Sirve para comentar con JavaDoc
-	 * 
-	 * @author Aintzi
-	 * @param numeroPatas
-	 *            int. En caso de ser negativo se inicializa con 0
-	 */
-	/*
-	 * public Mesa(int numeroPatas) { super(); // this.numeroPatas = numeroPatas;
-	 * setNumeroPatas(numeroPatas); }
-	 */
-
-	public Mesa(int numeroPatas, int dimension, String color, int material) {
-		super();
-		this.numeroPatas = numeroPatas;
-		this.dimension = dimension;
-		this.color = color;
+	public Mesa(int material) {
+		this(); // llamar siempre al constructor por defecto
 		this.material = material;
 	}
 
+	public Mesa(int material, int dimension) {
+		this(material);
+		this.dimension = dimension;
+	}
+
 	public int getNumeroPatas() {
-		return this.numeroPatas;
+		return numeroPatas;
 	}
 
 	/**
-	 * Cambia el numero de patas
+	 * Si numeroPatas < 0 asignamos valor 1, else numeroPatas
 	 * 
 	 * @param numeroPatas
+	 *            int
 	 */
 	public void setNumeroPatas(int numeroPatas) {
-
-		this.numeroPatas = (numeroPatas < 0) ? 0 : numeroPatas;
+		this.numeroPatas = (numeroPatas <= 0) ? 1 : numeroPatas;
 	}
 
 	public int getDimension() {
-		return this.dimension;
+		return dimension;
 	}
 
 	public void setDimension(int dimension) {
@@ -83,7 +80,7 @@ public class Mesa {
 	}
 
 	public String getColor() {
-		return this.color;
+		return color;
 	}
 
 	public void setColor(String color) {
@@ -91,17 +88,51 @@ public class Mesa {
 	}
 
 	public int getMaterial() {
-		return this.material;
+		return material;
 	}
 
 	public void setMaterial(int material) {
 		this.material = material;
 	}
 
+	@Override
+	public String toString() {
+		return "Mesa [numeroPatas=" + numeroPatas + ", dimension=" + dimension + ", color=" + color + ", material="
+				+ material + "]";
+	}
+
+	/**
+	 * Calculamos el precio de la mesa en funcion de los materiales usados.
+	 * 
+	 * @see consultar todas las constantes definidas para los precios
+	 * @return int precio en ï¿½
+	 */
 	public int getPrecio() {
 
-		return 0;
+		int resul = 0;
+		resul += this.numeroPatas * PRECIO_PATA;
+		resul += this.dimension * PRECIO_M2;
 
+		if ((PRECIO_COLOR_NAME_CUSTOM.equalsIgnoreCase(this.color))) {
+			resul += PRECIO_COLOR_CUSTOM;
+		}
+
+		switch (this.material) {
+		case MATERIAL_ACERO:
+			resul += PRECIO_MATERIAL_ACERO;
+			break;
+		case MATERIAL_ALUMINIO:
+			resul += PRECIO_MATERIAL_ALUMINIO;
+			break;
+		case MATERIAL_PLASTICO:
+			resul += PRECIO_MATERIAL_PLASTICO;
+			break;
+		case MATERIAL_MADERA:
+			resul += PRECIO_MATERIAL_MADERA;
+			break;
+		}
+
+		return resul;
 	}
 
 }
